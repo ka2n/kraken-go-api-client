@@ -269,6 +269,10 @@ func (api *KrakenApi) doRequest(reqURL string, values url.Values, headers map[st
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode/100 >= 5 {
+		return nil, fmt.Errorf("Could not execute request!(%s)", resp.Status)
+	}
+
 	// Read request
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
